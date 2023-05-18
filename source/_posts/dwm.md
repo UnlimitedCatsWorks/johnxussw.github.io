@@ -68,7 +68,7 @@ https://x410.dev/cookbook/wsl/enable-systemd-in-wsl2-and-have-the-best-ubuntu-gu
 ```zsh
 # 使用zsh，发现.zshrc并不会在login的时候被加载
 # 修改/etc/zshenv 可以解决这个问题
-echo 
+echo export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0 >> /etc/zshenv
 ```
 
 2. 运行x410，并打开WSL2选项
@@ -95,4 +95,3 @@ ubuntu.exe run "zsh --login -c 'nohup dwm > /dev/null 2>&1 & sleep 1'"
 左上角1到9的数字就好像兜兜里的钱钱，每当要攒起来的时候，就有一股神秘力量阻止他进位
 
 我知道你很急，但你先别急！定制dwm就好像喝水一样简单🙂，且听下回分解！！！
-
