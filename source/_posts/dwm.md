@@ -1,5 +1,6 @@
 ---
 title: Using dwm in WSL2 (ubuntu)
+abbrlink: 21ec77d0
 date: 2023-05-17 14:48:45
 tags:
 ---
@@ -52,8 +53,6 @@ dwm
 等待几秒后🤔，什么也没有发生（不要慌，一切都在我预料之中）
 
 在WSL2里，运行图形化程序，是要用X server的（废物，还要用这个）
-
-:face
 
 所以我们需要在windows也就是宿主机上安装一个X Server，wsl2作为客户端将图形化程序发送到server上，这里我用的是x410
 

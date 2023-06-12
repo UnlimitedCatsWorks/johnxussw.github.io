@@ -1,9 +1,10 @@
 ---
 title: V8 memory model
-date: 2023-02-16 12:48:49
-tags: 
+tags:
   - frontend
   - v8
+abbrlink: e162379e
+date: 2023-02-16 12:48:49
 ---
 # V8内存模型
 
