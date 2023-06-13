@@ -51,15 +51,14 @@ LV(Logical Volume)
 
 逻辑卷(LV)可以像普通磁盘分区一样使用，但是它的大小和位置都是可以动态调整的。
 
-![](lvm_architecture.png)
-
+![](https://s2.loli.net/2023/06/13/wmoDO2KXBR8hasI.png)
 
 ## 那真的泰裤辣，试试看
 
 正好在之前的PVE里，一台ubuntu18.04的虚拟机需要从20G扩容到40G
 
 ### 1. 首先在PVE管理界面扩大虚拟机的磁盘大小
-![](pve.png)
+![](https://s2.loli.net/2023/06/13/zlPZBOyGT2CdVMW.png)
 
 ### 2. 修改虚拟机配置
 ```bash
@@ -110,7 +109,7 @@ Fix/Ignore? Fix
 ```
 
 #### 修复了GPT PMBR size, 就可以使用fdisk扩大分区了
-![](repartition.png)
+![](https://s2.loli.net/2023/06/13/VHDvtkWbNAJRlhT.png)
 
 ---
 

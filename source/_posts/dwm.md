@@ -13,7 +13,7 @@ tags:
 
 不行！做人最重要的是开心，我要开心起来！于是就去B站上试图找乐子...
 
-[![dwm](https://i2.hdslb.com/bfs/archive/0335178b63bfdec46a6eb71aae763db33063ff30.jpg@320w_200h_1c_!web-space-upload-video.avif)](https://www.bilibili.com/video/BV1Ef4y1Z7kA)
+[![dwm](https://s2.loli.net/2023/06/13/mb3g4Uf9BksKVO7.png)](https://www.bilibili.com/video/BV1Ef4y1Z7kA)
 
 哎，这个桌面看起来有点好看啊
 
