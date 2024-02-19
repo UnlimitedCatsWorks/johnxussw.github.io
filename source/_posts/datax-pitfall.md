@@ -63,4 +63,10 @@ mvn clean package -DskipTests assembly:assembly -e -X
 
 === 探究原因 ===
 
-有空再说
+1. maven-assembly-plugin:2.2-beta-5 有assembly:assembly 命令
+2. maven插件版本依赖导致升级到maven3.9时，maven-assembly-plugin自动升级到3.6.0
+
+Ref.
+- https://maven.apache.org/guides/plugin/guide-java-plugin-development.html
+- https://stackoverflow.com/questions/21128372/how-does-maven-resolve-plugin-versions
+> Every version of Maven binaries has certain versions of plugin versions hardcoded
