@@ -1,10 +1,10 @@
 ---
 title: 记录一次痛苦的unocss使用经历
-date: 2023-06-27 10:23:35
 tags:
-  - name: postcss
-  - name: pitfall
-abbrlink: 808fcec2
+  - postcss
+  - pitfall
+abbrlink: d22cb7ad
+date: 2023-06-27 10:23:35
 ---
 
 因为公司有用TinaCMS + NextJS搭建部分网页,
