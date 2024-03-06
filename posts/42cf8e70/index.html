@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="John Xu"><meta name="copyright" content="John Xu"><meta name="generator" content="Hexo 6.3.0"><meta name="theme" content="hexo-theme-yun"><title>Vim Text object | John's Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"johnxussw.github.io","root":"/","title":"John Xu's blog","version":"1.10.9","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="Text objects!!!在普通的编辑器中，我们通常以字符为单位编辑文本 在vim中预先定义了word，sentence, paragraph等text objects 可以帮助我们快速描述需要修改的区域，进行后续操作 例子1123const text &#x3D; &quot;Who are bMISTYPExd you?&quot;const text &#x3D; &quot;Who are you?&amp;qu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vim Text object">
+<meta property="og:url" content="https://johnxussw.github.io/posts/42cf8e70/index.html">
+<meta property="og:site_name" content="John&#39;s Blog">
+<meta property="og:description" content="Text objects!!!在普通的编辑器中，我们通常以字符为单位编辑文本 在vim中预先定义了word，sentence, paragraph等text objects 可以帮助我们快速描述需要修改的区域，进行后续操作 例子1123const text &#x3D; &quot;Who are bMISTYPExd you?&quot;const text &#x3D; &quot;Who are you?&amp;qu">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-10-27T07:20:27.000Z">
+<meta property="article:modified_time" content="2024-03-06T02:57:18.974Z">
+<meta property="article:author" content="John Xu">
+<meta property="article:tag" content="tools">
+<meta property="article:tag" content="efficiency">
+<meta name="twitter:card" content="summary"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="John Xu"><img width="96" loading="lazy" src="/yun.png" alt="John Xu"></a><div class="site-author-name"><a href="/about/">John Xu</a></div><span class="site-name">John's Blog</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">20</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">0</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">16</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="文档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/johnxussw" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:johnxu@ssw.com.au" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Text-objects"><span class="toc-number">1.</span> <span class="toc-text">Text objects!!!</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BE%8B%E5%AD%901"><span class="toc-number">1.1.</span> <span class="toc-text">例子1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BE%8B%E5%AD%902"><span class="toc-number">1.2.</span> <span class="toc-text">例子2</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://johnxussw.github.io/posts/42cf8e70/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="John Xu"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="John's Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Vim Text object</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2022-10-27 15:20:27" itemprop="dateCreated datePublished" datetime="2022-10-27T15:20:27+08:00">2022-10-27</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-03-06 10:57:18" itemprop="dateModified" datetime="2024-03-06T10:57:18+08:00">2024-03-06</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">342</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">1m</span></span></span><span class="post-busuanzi"><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Views"><span class="icon iconify" data-icon="ri:eye-line"></span> <span id="busuanzi_value_page_pv"></span></span></span><div class="post-classify"><span class="post-tag"><a class="tag-item" href="/tags/tools/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">tools</span></a><a class="tag-item" href="/tags/efficiency/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">efficiency</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h3 id="Text-objects"><a href="#Text-objects" class="headerlink" title="Text objects!!!"></a>Text objects!!!</h3><p>在普通的编辑器中，我们通常以字符为单位编辑文本</p>
+<p>在vim中预先定义了word，sentence, paragraph等text objects</p>
+<p>可以帮助我们快速描述需要修改的区域，进行后续操作</p>
+<h4 id="例子1"><a href="#例子1" class="headerlink" title="例子1"></a>例子1</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> text = <span class="string">&quot;Who are bMISTYPExd you?&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> text = <span class="string">&quot;Who are you?&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>光标在b一般会怎么删除呢？</p>
+<p>dw</p>
+<p>如果我们的光标不在b，在单词中间呢？</p>
+<ol>
+<li>bdw<blockquote>
+<p>先使用b退回到单词开头，再删除单词</p>
+</blockquote>
+</li>
+<li>daw<blockquote>
+<p>使用aw选中单词，直接删除</p>
+</blockquote>
+</li>
+</ol>
+<p>这里的aw就是text object 代表around word</p>
+<p>iw代表inner word, 选中的就是不包括空格的单词了</p>
+<p>大部分情况下，使用daw的心智负担更小, 因为你不用再考虑光标在单词的哪个位置</p>
+<hr>
+<p>可能现在你感觉text objects还没太大用, 再来看个例子!</p>
+<h4 id="例子2"><a href="#例子2" class="headerlink" title="例子2"></a>例子2</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> longText = <span class="string">&quot;This is super long text ahhhhh!&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> longText = <span class="string">&quot;short&quot;</span></span><br></pre></td></tr></table></figure>
+<p>假如光标在第一个”上怎么快速的把longText替换成”short”呢?</p>
+<ol>
+<li><p>dt”Ashort”</p>
+<blockquote>
+<p>删除到”, append在最后，输入short”</p>
+</blockquote>
+</li>
+<li><p>lct”short</p>
+<blockquote>
+<p>右移，change到”的内容为short</p>
+</blockquote>
+</li>
+<li><p>ci”short</p>
+<blockquote>
+<p>change <strong>双引号内的内容（text object）</strong>为short</p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<p>下面列出常用的text objects</p>
+<ul>
+<li>at it | 标签</li>
+<li>a} i}</li>
+<li>a] i]</li>
+<li>a) i)</li>
+<li>i,w | camelCase</li>
+<li>aa ia | argument</li>
+<li>ai ii | indentation</li>
+</ul>
+<p><strong>通过vim script也可以定制自己想要的text objects, 有机会再介绍吧！</strong></p>
+</div></section><ul class="post-copyright"><li class="post-copyright-author"><strong>Post author: </strong>John Xu</li><li class="post-copyright-link"><strong>Post link: </strong><a href="https://johnxussw.github.io/posts/42cf8e70/" title="Vim Text object">https://johnxussw.github.io/posts/42cf8e70/</a></li><li class="post-copyright-license"><strong>Copyright Notice: </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> unless otherwise stated.</li></ul></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/posts/6111bf31/" rel="prev" title="Docker network"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">Docker network</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/posts/b72db3c8/" rel="next" title="怎么挑选合适的主键"><span class="post-nav-text">怎么挑选合适的主键</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> John Xu</span></div><div class="live-time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(●'◡'●)</span><script>function blog_live_time() {
+  setTimeout(blog_live_time, 1000);
+  const start = new Date('2022-10-13T01:14:29');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = ` ${passDay} Days ${passHour} Hours ${passMinute} Minutes ${passSecond} Seconds`;
+}
+blog_live_time();
+</script></div><div id="busuanzi"><span id="busuanzi_container_site_uv" title="Total Visitors"><span><span class="icon iconify" data-icon="ri:user-line"></span></span><span id="busuanzi_value_site_uv"></span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv" title="Total Views"><span><span class="icon iconify" data-icon="ri:eye-line"></span></span><span id="busuanzi_value_site_pv"></span></span><script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a></body></html>
